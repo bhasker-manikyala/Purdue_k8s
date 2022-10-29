@@ -1,0 +1,272 @@
+  584  hostname
+  585  kubectl get nodes
+  586  kubectl get nodes -o wide
+  587  kubectl get nodes
+  588  kubectl get nodes -o wide
+  589  kubectl get all
+  590  cd an
+  591  cd manifests/
+  592  ls
+  593  cd Pods/
+  594  ls
+  595  cd ..
+  596  ls
+  597  cd Init/
+  598  ls
+  599  kubectl delete -f init-pod.yml -f manifest.yml
+  600  kubectl get all
+  601  cd ..
+  602  ls
+  603  cd Deployments/
+  604  ls
+  605  kubectl delete -f label-nginx-example.yml -f update-label.yml
+  606  kubectl get all
+  607  pwd
+  608  cd ..
+  609  ls
+  610  cd Pods/
+  611  ls
+  612  cat simple-pod.yaml
+  613  kubectl create -f simple-pod.yaml
+  614  kubectl get pods
+  615  kubectl get pods -o wide
+  616  kubectl get nodes
+  617  kubectl get nodes -o wide
+  618  kubectl describe node worker-1
+  619  kubectl get nodes
+  620  kubectl get nodes -o wide
+  621  hostnane
+  622  hostname
+  623  cat /etc/hosts
+  624  hostname
+  625  kubectl get nodes -o wide
+  626  ifconfig
+  627  kubectl get nodes -o wide
+  628  kubectl describe node worker-1
+  629  kubectl get nodes
+  630  pwd
+  631  ls
+  632  cat multicont-pod.yml
+  633  kubectl create -f multicont-pod.yml
+  634  kubectl get pods
+  635  kubectl logs busybox -c busybox1
+  636  kubectl logs busybox -c busybox2
+  637  kubectl logs busybox -c busybox3
+  638  cat simple-pod.yaml
+  639  cat multicont-pod.yml
+  640  kubectl exec -it busybox -c busybox1 /bin/sh
+  641  kubectl exec -it busybox -c busybox2 /bin/sh
+  642  kubectl exec -it busybox -c busybox3 /bin/sh
+  643  kubectl logs busybox -c busybox1
+  644  kubectl exec -it busybox -c busybox1 /bin/sh
+  645  kubectl exec -it busybox -c busybox3 /bin/sh
+  646  pwd
+  647  ls
+  648  cat pods-with-volumes.yml
+  649  kubectl create -f pods-with-volumes.yml
+  650  kubectl get pods
+  651  kubectl exec -it mc1 -c 1st /bin/bash
+  652  cat pods-with-volumes.yml
+  653  cat multicont-pod.yml
+  654  cat pods-with-volumes.yml
+  655  pwd
+  656  ls
+  657  pwd
+  658  ls
+  659  pwd
+  660  ls
+  661  cp pods-with-volumes.yml init-container.yml
+  662  vi init-container.yml
+  663  kubectl create -f init-container.yml
+  664  kubectl get pods
+  665  kubectl get events
+  666  kubectl get pods
+  667  kubectl logs init-container-demo
+  668  kubectl get pods
+  669  cat init-container.yml
+  670  kubectl exec -it init-container-demo -- /bin/bash
+  671  kubectl get pods
+  672  cat simple-pod.yaml
+  673  kubectl explain pods
+  674  kubectl explain deployments
+  675  pwd
+  676  ls
+  677  cd ..
+  678  ls
+  679  cd Deployments/
+  680  ls
+  681  kubectl create deployment nginx-deployment --image=nginx
+  682  kubectl get deployments.apps
+  683  kubectl get pods
+  684  kubectl scale deployment nginx-deployment --replicas=5
+  685  kubectl get deployments.apps
+  686  kubectl get pods
+  687  kubectl get rs
+  688  kubectl scale deployment nginx-deployment --replicas=2
+  689  kubectl get deployments.apps
+  690  kubectl get pods
+  691  kubectl describe deployments.apps nginx-deployment
+  692  kubectl get pods
+  693  kubectl delete pod nginx-deployment-5fbdf85c67-5dfms
+  694  kubectl get pods
+  695  kubectl get deployments.apps
+  696  kubectl scale deployment nginx-deployment --replicas=5
+  697  kubectl get pods
+  698  history
+  699  kubectl get pods -o wide
+  700  curl 192.168.133.219:80
+  701  pwd
+  702  kubectl delete deployments.apps nginx-deployment
+  703  kubectl get deployments.apps
+  704  kubectl get pods
+  705  kubectl create deployment nginx-deployment --image=nginx --dry-run=client -o yamol
+  706  kubectl create deployment nginx-deployment --image=nginx --dry-run=client -o yaml
+  707  kubectl create deployment nginx-deployment --image=nginx --dry-run=client -o json
+  708  kubectl create deployment nginx-deployment --image=nginx --dry-run=client -o yaml > nginx-deployment.yml
+  709  pwd
+  710  ls -l nginx-deployment.yml
+  711  cat nginx-deployment.yml
+  712  kubectl explain deployments
+  713  vi nginx-deployment.yml
+  714  kubectl get all
+  715  cd ..
+  716  ls
+  717  cat Pods/
+  718  ls
+  719  cd Pods/
+  720  cat multicont-pod.yml
+  721  ls
+  722  kubectl delete -f multicont-pod.yml -f init-container.yml -f pods-with-volumes.yml -f simple-pod.yaml
+  723  kubectl get all
+  724  cd ..
+  725  cd Deployments/
+  726  ls
+  727  cat nginx-deployment.yml
+  728  kubectl create -f nginx-deployment.yml
+  729  kubectl get deployments.apps
+  730  kubectl get deployments.apps --show-labels
+  731  kubectl get pods
+  732  kubectl get pods -o wide
+  733  kubectl get pods -o wide --show-labels
+  734  kubectl get deployments.apps
+  735  kubectl get deployments.apps --show-labels
+  736  kubectl get deployments.apps -o wide
+  737  kubectl describe deployments.apps nginx-deployment
+  738  kubectl get pods
+  739  kubectl get pods --show-labels
+  740  ls
+  741  cat update-label.yml
+  742  cat nginx-deployment.yml
+  743  kubectl get deployments.apps --show-labels
+  744  cat nginx-deployment.yml
+  745  kubectl get deployments.apps --show-labels
+  746  kubectl get pods --show-labels
+  747  cat update-label.yml
+  748  vi nginx-deployment.yml
+  749  cat update-label.yml
+  750  kubectl patch deployments.apps nginx-deployment --patch "$(cat update-label.yml)"
+  751  kubectl describe deployments.apps nginx-deployment
+  752  kubectl get pods --show-labels
+  753  kubectl label deployments.apps nginx-deployment tier=backend
+  754  kubectl get deployments.apps --show-labels
+  755  kubectl get deployments.apps -l app=nginx
+  756  kubectl get pods -l tier=frontend
+  757  kubectl get pods -l app=nginx
+  758  kubectl get pods --selector "app=nginx"
+  759  kubectl get pods --selector "tier=backend"
+  760  kubectl get pods --selector "tier=frontend"
+  761  kubectl get deployments.apps --selector "app=nginx"
+  762  kubectl get deployments.apps --selector "app in (prod, dev)"
+  763  kubectl get deployments.apps --selector "app in (nginx, dev)"
+  764  kubectl get deployments.apps --selector "app notin (nginx, dev)"
+  765  kubectl get pods --show-labels
+  766  kubectl get deployments.apps --show-labels
+  767  kubectl label deployments.apps nginx-deployment tier-
+  768  kubectl get deployments.apps --show-labels
+  769  kubectl label pod nginx-deployment-57454df5db-5qr4z tier-
+  770  kubectl get pods --show-labels
+  771  kubectl get nodes
+  772  kubectl get nodes --show-labels
+  773  kubectl describe node worker-1
+  774  kubectl label node worker-1 color=blue
+  775  kubectl get nodes --show-labels | grep color
+  776  pwd
+  777  ls
+  778  kubectl delete deployments.apps nginx-deployment
+  779  kubectl get all
+  780  vi nginx-deployment.yml
+  781  kubectl create  -f nginx-deployment.yml
+  782  vi nginx-deployment.yml
+  783  kubectl get deployments.apps
+  784  kubectl create -f nginx-deployment.yml
+  785  kubectl get deployments.apps
+  786  kubectl get pods
+  787  kubectl get pods -o wide
+  788  kubectl get nodes --show-labels
+  789  cat nginx-deployment.yml
+  790  kubectl get pods -o wide
+  791  kubectl label worker-1 color-
+  792  kubectl label node worker-1 color-
+  793  kubectl get nodes --show-labels | grep color
+  794  kubectl get pods
+  795  kubectl delete pod nginx-deployment-55c6fc8976-f25nc
+  796  kubectl get pods -o wide
+  797  cat nginx-deployment.yml
+  798  kubectl get pods -o wide
+  799  kubectl label node worker-1 color=blue
+  800  kubectl get pods -o wide
+  801  kubectl get pods
+  802  kubectl delete -f nginx-deployment.yml
+  803  kubectl get al
+  804  kubectl get all
+  805  kubectl run websvc --image=ngin
+  806  kubectl get pods
+  807  kubectl delete pod websvc
+  808  kubectl run websvc --image=nginx
+  809  kubectl get pods
+  810  kubectl get pods --show-labels
+  811  kubectl label pod websvc run-
+  812  kubectl get pods --show-labels
+  813  kubectl label pod websvc {color=blue, env=prod1}
+  814  kubectl label pod websvc {color=blue,env=prod1}
+  815  kubectl get pods --show-labels
+  816  kubectl label pod websvc app=dev
+  817  kubectl get pods --show-labels
+  818  kubectl label pod websvc app=dev
+  819  kubectl get pods --show-labels
+  820  kubectl label pod websvc app=nginx --overwrite
+  821  kubectl get pods --show-labels
+  822  kubectl get ns
+  823  kubectl get all --all-namespaces
+  824  pwd
+  825  ls
+  826  cd ..
+  827  ls
+  828  cd ..
+  829  ls
+  830  cd manifests/
+  831  ls
+  832  git init
+  833  git status
+  834  git add .
+  835  git config --global --list
+  836  pwd
+  837  ls
+  838  git config --global
+  839  git config --global --list
+  840  pwd
+  841  ls
+  842  git config --global user.name "edureka"
+  843  git config --global user.email "support@edureka.co"
+  844  git config --global --list
+  845  git commit -a "Purdue K8s"
+  846  git commit -m "Purdue K8s"
+  847  pwd
+  848  ls
+  849  git remote add origin "https://github.com/bhasker-manikyala/Purdue_k8s.git"
+  850  git remote -v
+  851  git push origin --all
+  852  ls
+  853  cd
+  854  vi token
+
