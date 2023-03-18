@@ -1,3 +1,105 @@
 IAM role -- AdministratorAccess, AmazonEC2FullAccess, IAMFullAccess, AWSCloudFormationFullAccess
 
 https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
+
+
+Command History
+===============
+ 1  sudo apt-get update
+    2  sudo apt-get install awscli -y
+    3  sudo apt list --installed awscli
+    4  aws configure
+    5  aws configure list
+    6  aws help
+    7  aws --help
+    8  aws configure list
+    9  aws ec2 --help
+   10  aws ec2 help
+   11  aws ec2 describe-instances
+   12  q
+   13  aws ec2 describe-instances - region ap-southeast-1
+   14  aws ec2 describe-instances -region ap-southeast-1
+   15  aws ec2 describe-instances region ap-southeast-1
+   16  aws ec2 describe-instances help
+   17  aws ec2 describe-instances -- region ap-southeast-1
+   18  aws ec2 describe-instances - region ap-southeast-1
+   19  pwd
+   20  curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.6/2023-01-30/bin/linux/amd64/kubectl
+   21  pwd
+   22  ls
+   23  chmod +x kubectl
+   24  sudo mv ./kubectl /usr/local/bin
+   25  which kubectl
+   26  kubectl version
+   27  kubectl version --short --client
+   28  kubectl version  --client
+   29  curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+   30  pwd
+   31  ls
+   32  cd /tmp
+   33  ls
+   34  ls -l eksctl
+   35  sudo mv eksctl /usr/local/bin
+   36  which eksctl
+   37  ls -l /usr/local/bin/kubectl
+   38  ls -l /usr/local/bin/eksctl
+   39  eksctl version
+   40  cd
+   41  which eksctl
+   42  eksctl create cluster --name edureka-cluster --region ap-southeast-1 --help
+   43  eksctl create cluster --name edureka-cluster --region ap-southeast-1 --instance-types t2.small
+   44  kubectl get nodes
+   45  which kubectl
+   46  kubectl version --short
+   47  ls -la
+   48  cd .kube/
+   49  ls
+   50  cat config
+   51  kubectl version --short
+   52  kubectl version --short --client
+   53  cd
+   54  curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.10/2023-01-30/bin/linux/amd64/kubectl
+   55  sudo rm -rf /usr/local/bin/kubectl
+   56  chmod +x kubectl
+   57  sudo mv kubectl /usr/local/bin/
+   58  which kubectl
+   59  kubectl version
+   60  kubectl version --short --client
+   61  kubectl get nodes
+   62  ls
+   63  curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+   64  sudo rm -rf /usr/local/bin/kubectl
+   65  ls
+   66  chmod +x kubectl
+   67  sudo mv kubectl /usr/local/bin/
+   68  kubectl get nodes
+   69  aws --version
+   70  vi .kube/config
+   71  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   72  unzip awscliv2.zip
+   73  sudo ./aws/install
+   74  sudo apt-get install unzip
+   75  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   76  unzip awscliv2.zip
+   77  sudo ./aws/install
+   78  sudo apt-get remove awscli
+   79  /usr/local/bin/aws --version
+   80  kubectl get nodes
+   81  kubectl create deployment demo-nginx --image=nginx --replicas=2 --port=80
+   82  kubectl get all
+   83  kubectl get pods -o wide
+   84  curl 192.168.89.54
+   85  kubectl get services
+   86  kubectl get deployments
+   87  kubectl expose deployment demo-nginx --port=80 --type=LoadBalancer
+   88  kubectl get services -o wide
+   89  kubectl get deployments
+   90  kubectl get pods
+   91  kubectl get pods -o wide
+   92  kubectl get nodes
+   93  kubectl get services
+   94  kubectl describe service demo-nginx
+   95  history
+   96  eksctl delete cluster edureka-cluster --region ap-southeast-1
+   97  history
+ubuntu@ip-172-31-41-149:~$
