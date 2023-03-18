@@ -1,0 +1,3 @@
+IAM role -- AdministratorAccess, AmazonEC2FullAccess, IAMFullAccess, AWSCloudFormationFullAccess
+
+https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
