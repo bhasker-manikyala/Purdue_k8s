@@ -1,0 +1,86 @@
+v1.18.3  --- 1.18.7
+
+v1.18.3  --- 1.19.x
+
+v1.18.3  --- 1.19.x  --- 1.20.x
+
+Ansible playbook  --- Inventory Control planes   Worker nodes
+
+
+Controller Node:
+
+1. Update Kubeadm
+
+   $ sudo apt-get install kubeadm-1.19.3
+
+2. Drain the controller node(Evict any Kubernetes resources and disable scheduling)
+
+   $ kubectl drain kmaster --ignore-daemonsets
+   $ kubectl get nodes
+
+
+3. Generate upgrade plan
+
+   $ kubeadm upgrade plan
+
+  
+
+4. Perform Kubernetes Upgrade
+
+   $ kubeadm upgrade apply v1.19.3
+
+5. Update kubectl and kubelet
+
+   $ sudo apt-get install kubelet-1.19.3 kubectl-1.19.3
+   $ sudo systemctl daemon-reload
+   $ sudo systemctl restart kubelet
+
+6. Un-cordon the controller node(Enable scheduling)
+
+   $ kubectl uncordon kmaster
+
+7. Verify and validate
+
+   $ kubectl get nodes
+
+
+
+
+Worker Node:
+
+1. Update Kubeadm
+
+   $ sudo apt-get install kubeadm-1.19.3
+
+
+2. Drain the respective node(Evict any Kubernetes resources and disable scheduling)
+
+   $ kubectl drain kslave1 --ignore-daemonsets --force
+   $ kubectl get nodes
+
+
+3. Perform Kubernetes Upgrade
+
+  $ kubeadm upgrade node
+
+4. Update kubectl and kubelet
+
+  $ sudo apt-get install kubelet-1.19.3 kubectl-1.19.3
+  $ sudo systemctl daemon-reload
+  $ sudo systemctl restart kubelet
+
+
+5. Un-cordon the controller node(Enable scheduling)
+
+  $ kubectl uncordon kslave1
+
+
+7. Verify and validate
+
+  $ kubectl get nodes
+
+
+Remaining worker nodes
+
+
+
