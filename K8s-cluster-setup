@@ -53,7 +53,7 @@ Containerd provides the container run time for Kubernetes. So, Install container
 
 First install containerd dependencies,
 
-$ sudo apt install -y curl gnupg2 software-properties-common apt-transport-https ca-certificates
+$ sudo apt install -y curl gnupg software-properties-common apt-transport-https ca-certificates
 
 Next, add containerd repository using following set of commands.
 $ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/containerd.gpg
