@@ -84,6 +84,7 @@ Install Kubernetes components like Kubeadm, kubelet and kubectl, run following a
 
 $ sudo apt update
 $ sudo apt install kubelet kubeadm kubectl -y
+$ sudo apt-mark hold kubeadm kubelet kubectl ( Prevent updating a package)
 
 6) Initialize Kubernetes Cluster
 As all the prerequisites are met, now we are good to start the installation of Kubernetes on Ubuntu 24.04.
