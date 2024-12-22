@@ -1,3 +1,30 @@
+K8s Master ports:
+=================
+
+6443   --- These ports are used for K8s API access
+
+2379-2380  --- These ports are used for etcd server client API
+
+10250  --- Kubelet API
+
+10251  --- Kube-schedular
+
+10252  --- Kube-controller manager
+
+179    --- Calico networking(Cluster network)
+
+
+K8s Worker Ports:
+=================
+
+10250  --- Kubelet API
+
+30000-32767  --- NodePort Services
+
+
+
+
+
 Lab Setup
 Master Node:  172.31.35.217 – master.example.net
 First Worker Node:  172.31.37.183 – worker1.example.net
