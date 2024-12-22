@@ -1,0 +1,61 @@
+Kubernetes Objects:
+
+
+Imperative vs declarative 
+
+  command  vs  script(yaml or json)
+
+
+$ kubectl run nginx-pod --image nginx
+
+OR
+
+$ cat nginx-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  labels:
+    env: dev
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx
+    ports:
+    - containerPort: 80
+
+
+
+
+Pod
+
+
+nginx-app of 3 replicas  --- HA
+
+
+pod
+Services:
+
+ClusterIP
+
+NodePort
+
+LoadBalancer
+
+Ingress
+
+
+
+Controllers:
+
+replicaset
+
+Deployments
+
+Daemonsets
+
+Statefulsets
+
+HPA
+
+
