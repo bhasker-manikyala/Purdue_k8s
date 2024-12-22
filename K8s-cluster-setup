@@ -1,7 +1,7 @@
 Lab Setup
 Master Node:  172.31.35.217 – master.example.net
-First Worker Node:  172.31.37.183 – worker-1.example.net
-Second Worker Node:  172.31.44.138 – worker-2.example.net
+First Worker Node:  172.31.37.183 – worker1.example.net
+Second Worker Node:  172.31.44.138 – worker2.example.net
 
 Step 1) Set hostname and add entries in the hosts file
 
@@ -10,70 +10,104 @@ $ exec bash
 
 On the worker nodes, run
 
-$ sudo hostnamectl set-hostname "worker-1.example.net"   // 1st worker node
-$ sudo hostnamectl set-hostname "worker-2.example.net"   // 2nd worker node
+$ sudo hostnamectl set-hostname "worker1.example.net"   // 1st worker node
+$ sudo hostnamectl set-hostname "worker2.example.net"   // 2nd worker node
 $ exec bash
 
 Add the following entries in /etc/hosts file on each node
 
 172.31.35.217  master.example.net
-172.31.37.183  worker-1.example.net
-172.31.44.138  worker-2.example.net
+172.31.37.183  worker1.example.net
+172.31.44.138  worker2.example.net
 
-Step 2) Disable swap & add kernel settings
+2) Disable Swap and Load Kernel Modules
+It is highly recommended to disable swap space on your Ubuntu instances so that Kubernetes cluster works smoothly. Run beneath command on each instance to disable swap space.
 
 $ sudo swapoff -a
 $ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-Load the following kernel modules on all the nodes,
+Now, load the following kernel modules using modprobe command.
 
-$ sudo tee /etc/modules-load.d/containerd.conf <<EOF
+$ sudo modprobe overlay
+$ sudo modprobe br_netfilter
+For the permanent loading of these modules, create the file with following content.
+
+$ sudo tee /etc/modules-load.d/k8s.conf <<EOF
 overlay
 br_netfilter
 EOF
-$ sudo modprobe overlay
-$ sudo modprobe br_netfilter
 
-Step 3) Install containerd run time( Make sure to run the following commands on all nodes )
+Next, add the kernel parameters like IP forwarding. Create a file and load the parameters using sysctl command,
+
+$ sudo tee /etc/sysctl.d/kubernetes.conf <<EOT
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+EOT
+
+To load the above kernel parameters, run
+$ sudo sysctl --system
+
+3) Install and Configure Containerd
+Containerd provides the container run time for Kubernetes. So, Install containerd on all three instances.
+
+First install containerd dependencies,
 
 $ sudo apt install -y curl gnupg2 software-properties-common apt-transport-https ca-certificates
 
-Enable docker repository
-
-$ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg
+Next, add containerd repository using following set of commands.
+$ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/containerd.gpg
 $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
+Now, install containerd using following apt command.
+$ sudo apt update && sudo apt install containerd.io -y
+
+Next, configure containerd so that it starts using SystemdCgroup. Run beneath commands.
+$ containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
+$ sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+
+Restart containerd service so that above changes come into the affect.
+$ sudo systemctl restart containerd
+
+4) Add Kubernetes Package Repository
+Kubernetes packages are not available in the default package repositories of Ubuntu 24.04, so for its installation first add it’s repository. Run these steps on each instance.
+Note: At the time of writing this post, latest version of Kubernetes was 1.30. So you can this version according your requirement.
+Download the public signing key for the Kubernetes package repository using curl command.
+
+$ curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/k8s.gpg
+
+Next, add the Kubernetes repository by running following command.
+
+$ echo 'deb [signed-by=/etc/apt/keyrings/k8s.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/k8s.list
+5) Install Kubernetes Components (Kubeadm, kubelet & kubectl)
+Install Kubernetes components like Kubeadm, kubelet and kubectl, run following apt commands on all the instances.
+
 $ sudo apt update
-$ sudo apt install -y containerd.io
+$ sudo apt install kubelet kubeadm kubectl -y
 
-Configure containerd so that it starts using systemd as cgroup.
+6) Initialize Kubernetes Cluster
+As all the prerequisites are met, now we are good to start the installation of Kubernetes on Ubuntu 24.04.
 
-containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
-sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+Run following Kubeadm command from the master node only to initialize the Kubernetes cluster.
 
-Restart and enable containerd service
+$ sudo kubeadm init --control-plane-endpoint=master.example.net
 
-sudo systemctl restart containerd
-sudo systemctl enable containerd
+This command will pull the required images for your Kubernetes cluster. Once this command is executed successfully
 
-Step 4) Add apt repository for Kubernetes
+On the master node, run following set of commands.
 
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+$ mkdir -p $HOME/.kube
+$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+$ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-Step 5) Install Kubernetes components Kubectl, kubeadm & kubelet
+Next copy the command to join any worker node from the above output, run it on both the worker nodes. In my case, command would be:
 
-sudo apt update
-sudo apt install -y kubelet kubeadm kubectl
-sudo apt-mark hold kubelet kubeadm kubectl
+$ sudo kubeadm join k8s-master-noble:6443 --token p3sdpk.zn0s060af0089ioa \
+        --discovery-token-ca-cert-hash sha256:afa3d90b6cd8c5889fca12ea3e9b50659b933ab6c808e2906fd63bde5e695bfd
 
-Step 6) Initialize Kubernetes cluster with Kubeadm command
 
-sudo kubeadm init --control-plane-endpoint=controller
+7) Install Calico Network Add-on Plugin
+To install calico network plugin, run beneath command from the master node only.
 
-Step 7) Install Calico Pod Network Add-on
-
-curl https://projectcalico.docs.tigera.io/manifests/calico.yaml -O
-kubectl apply -f calico.yaml
-
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 
