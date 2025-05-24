@@ -1,0 +1,48 @@
+  137  helm version
+  138  helm version --short
+  139  helm -h
+  140  ls
+  141  kubectl get nodes
+  142  ls
+  143  rm -rf nginx*
+  144  ls
+  145  pwd
+  146  ls
+  147  helm repo add bitnami https://charts.bitnami.com/bitnami
+  148  helm repo list
+  149  helm search repo drupal
+  150  helm search repo content
+  151  helm search repo drupal --versions
+  152  helm search repo nginx --versions
+  153  helm install my-drupal bitnami/drupal
+  154  helm list
+  155  kubectl get all -l "app.kubernetes.io/name=drupal"
+  156  helm list
+  157  helm uninstall my-drupal
+  158  kubectl get all -l "app.kubernetes.io/name=drupal"
+  159  cd
+  160  mkdir K8s
+  161  mkdir -p K8s/helm-examples
+  162  cd K8s/helm-examples/
+  163  helm create --help
+  164  helm create mychart
+  165  tree mychart/
+  166  cd mychart/
+  167  vi values.yaml
+  168  vi templates/deployment.yaml
+  169  cd ..
+  170  helm lint mychart/
+  171  helm install --dry-run nginx mychart/
+  172  helm install  nginx mychart/
+  173  helm list
+  174  kubectl get all -l "app.kubernetes.io/name=mychart"
+  175  pwd
+  176  ls
+  177  tree mychart/
+  178  helm lint mychart
+  179  helm get manifest
+  180  helm get manifest nginx
+  181  helm uninstall mychart
+  182  helm list
+  183  helm uninstall nginx
+  184  kubectl get all -l "app.kubernetes.io/name=mychart"
